@@ -19,10 +19,7 @@ public class GetDevicesRequest extends TuyaRequestBuilder<GetDevicesResponse> {
     @Override
     public GetDevicesResponse executeAndGet() throws IOException {
         GetDevicesResponse response = new GetDevicesResponse();
-        JsonObject asJsonObject = new JsonParser().parse(execute().returnContent().asString()).getAsJsonObject();
-        System.out.println(asJsonObject.toString());
-                       asJsonObject .get("result").getAsJsonArray()
-                        .forEach(e -> response.add(DeviceDTO.fromJson(e)));
+        extractResult(execute()).getAsJsonArray().forEach(e -> response.add(DeviceDTO.fromJson(e)));
         return response;
     }
 }

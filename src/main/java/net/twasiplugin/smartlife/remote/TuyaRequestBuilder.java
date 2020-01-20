@@ -1,5 +1,6 @@
 package net.twasiplugin.smartlife.remote;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.codec.binary.Hex;
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -103,9 +105,9 @@ public abstract class TuyaRequestBuilder<T> {
         sign.append(t);
         try {
             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-            SecretKeySpec secret_key = new SecretKeySpec(CONFIG.clientSecret.getBytes("UTF-8"), "HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(CONFIG.clientSecret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
             sha256_HMAC.init(secret_key);
-            return Hex.encodeHexString(sha256_HMAC.doFinal(sign.toString().getBytes("UTF-8"))).toUpperCase();
+            return Hex.encodeHexString(sha256_HMAC.doFinal(sign.toString().getBytes(StandardCharsets.UTF_8))).toUpperCase();
         } catch (Exception ignored) {
             return null;
         }
@@ -138,8 +140,8 @@ public abstract class TuyaRequestBuilder<T> {
         return this;
     }
 
-    protected JsonObject extractResult(Response response) throws IOException {
-        return new JsonParser().parse(response.returnContent().asString()).getAsJsonObject().get("result").getAsJsonObject();
+    protected JsonElement extractResult(Response response) throws IOException {
+        return new JsonParser().parse(response.returnContent().asString()).getAsJsonObject().get("result");
     }
 
 }
