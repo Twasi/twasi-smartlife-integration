@@ -4,7 +4,12 @@ main: net.twasiplugin.smartlife.SmartlifeIntegration
 dependency: true
 version: "1.0"
 api: |
-  type SmartlifeIntegration(token: String) {
+  type SmartlifeIntegration {
+    authenticationUri: String,
+    control: SmartlifeIntegrationControl
+  }
+
+  type SmartlifeIntegrationControl {
     devices: [Device]
   }
 

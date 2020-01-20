@@ -9,7 +9,7 @@ import java.io.IOException;
 public class GetTokenRequest extends TuyaRequestBuilder<TokenResponse> {
 
     public GetTokenRequest(String code) {
-        super(" /v1.0/token?grant_type=2&code=" + code);
+        super("/v1.0/token?grant_type=2&code=" + code);
     }
 
     @Override

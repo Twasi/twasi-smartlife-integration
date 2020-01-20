@@ -1,8 +1,7 @@
 package net.twasiplugin.smartlife;
 
-import net.twasi.core.plugin.TwasiPluginConfiguration;
 
-public class SmartlifeIntegrationConfig extends TwasiPluginConfiguration {
+public class SmartlifeIntegrationConfig {
 
     public String clientId = "...";
     public String clientSecret = "...";

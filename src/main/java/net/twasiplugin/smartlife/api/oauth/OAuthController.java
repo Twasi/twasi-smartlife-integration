@@ -1,5 +1,6 @@
 package net.twasiplugin.smartlife.api.oauth;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.twasi.core.api.oauth.IOauthIntegrationHandler;
@@ -25,15 +26,13 @@ public class OAuthController implements IOauthIntegrationHandler {
     }
 
     public String getOauthUri(String state) {
-        return String.format("%s/login?client_id=%s&redirect_uri=%s&app_schema=%s", CONFIG.apiUri, CONFIG.clientId, CONFIG.redirectUri, CONFIG.appSchema);
+        return String.format("%s/login?client_id=%s&redirect_uri=%s&app_schema=%s&state=%s", CONFIG.apiUri, CONFIG.clientId, CONFIG.redirectUri, CONFIG.appSchema, state);
     }
 
     public void handleResponse(Map<String, String[]> params, User user) {
         boolean success;
         try {
             Response result = new GetTokenRequest(params.get("code")[0]).execute();
-            if (result.returnResponse().getStatusLine().getStatusCode() != 200)
-                throw new Exception("Bad Request");
 
             String body = result.returnContent().asString();
             JsonObject ob = new JsonParser().parse(body).getAsJsonObject();
@@ -53,6 +52,7 @@ public class OAuthController implements IOauthIntegrationHandler {
 
             success = true;
         } catch (Exception e) {
+            e.printStackTrace();
             success = false;
         }
         if (!success) {
