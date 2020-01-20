@@ -1,0 +1,30 @@
+name: SmartlifeIntegration
+author: Twasi-Team
+main: net.twasiplugin.smartlife.SmartlifeIntegration
+dependency: true
+version: "1.0"
+api: |
+  type SmartlifeIntegration(token: String) {
+    devices: [Device]
+  }
+
+  type Status {
+    code: String,
+    value: String
+  }
+
+  type Device {
+    id: String,
+    uid: String,
+    category: String,
+    product_id: String,
+    sub: Boolean,
+    online: Boolean,
+    name: String,
+    ip: String,
+    time_zone: String,
+    create_time: String,
+    update_time: String,
+    active_time: String,
+    status: [Status]
+  }
