@@ -6,14 +6,17 @@ version: "1.0"
 api: |
   type SmartlifeIntegration {
     authenticationUri: String,
-    control: SmartlifeIntegrationControl
+    maxSequenceSteps: Int,
+    control: SmartlifeIntegrationControl,
+    disconnect: PanelResult
   }
 
   type SmartlifeIntegrationControl {
     devices: [TuyaDevice],
     scenes(homeId: Long): [TuyaScene],
     homes: [TuyaHome],
-    triggerScene(homeId: Long, sceneId: String): PanelResult
+    triggerScene(homeId: Long, sceneId: String): PanelResult,
+    sceneSequences: SceneSequences
   }
 
   type TuyaDeviceStatus {
@@ -53,3 +56,38 @@ api: |
     executorProperty: String,
     actionExecutor: String
   }
+
+  type SceneSequences {
+    list: SceneSequencePageable,
+    play(id: String): PanelResult,
+    delete(id: String): PanelResult,
+    create(newSequence: SceneSequenceInput): SceneSequence,
+    update(id: String, update: SceneSequenceInput): SceneSequence
+  }
+
+  pageable type SceneSequence {
+    id: String,
+    name: String,
+    variable: String,
+    updated: Long,
+    created: Long,
+    steps: [SceneSequenceStep]
+  }
+
+  input SceneSequenceInput {
+    name: String,
+    variable: String,
+    steps: [SceneSequenceStepInput]
+  }
+
+  type SceneSequenceStep {
+    homeId: Long,
+    sceneId: String,
+    msDelay: Int
+  }
+
+  input SceneSequenceStepInput {
+      homeId: Long,
+      sceneId: String,
+      msDelay: Int
+    }

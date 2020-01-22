@@ -1,4 +1,4 @@
-package net.twasiplugin.smartlife.api.graphql.models;
+package net.twasiplugin.smartlife.remote.models;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

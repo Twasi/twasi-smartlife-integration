@@ -1,6 +1,6 @@
 package net.twasiplugin.smartlife.remote.responses.devices;
 
-import net.twasiplugin.smartlife.api.graphql.models.TuyaDeviceDTO;
+import net.twasiplugin.smartlife.remote.models.TuyaDeviceDTO;
 
 import java.util.ArrayList;
 

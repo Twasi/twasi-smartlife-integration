@@ -1,7 +1,7 @@
 package net.twasiplugin.smartlife.remote.requests.scenes;
 
-import net.twasiplugin.smartlife.api.graphql.models.TuyaSceneDTO;
-import net.twasiplugin.smartlife.database.SmartlifeCredentialsDTO;
+import net.twasiplugin.smartlife.remote.models.TuyaSceneDTO;
+import net.twasiplugin.smartlife.database.credentials.TuyaCredentialsDTO;
 import net.twasiplugin.smartlife.remote.TuyaRequestBuilder;
 import net.twasiplugin.smartlife.remote.responses.scenes.GetScenesResponse;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class GetScenesByHomeRequest extends TuyaRequestBuilder<GetScenesResponse> {
 
-    public GetScenesByHomeRequest(SmartlifeCredentialsDTO credentialsDTO, long homeId) {
+    public GetScenesByHomeRequest(TuyaCredentialsDTO credentialsDTO, long homeId) {
         super("/v1.0/homes/" + homeId + "/scenes");
         withAuthToken(credentialsDTO.getAccessToken());
     }

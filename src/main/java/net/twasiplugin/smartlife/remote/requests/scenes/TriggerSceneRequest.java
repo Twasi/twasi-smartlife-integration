@@ -1,7 +1,7 @@
 package net.twasiplugin.smartlife.remote.requests.scenes;
 
 import com.google.gson.JsonElement;
-import net.twasiplugin.smartlife.database.SmartlifeCredentialsDTO;
+import net.twasiplugin.smartlife.database.credentials.TuyaCredentialsDTO;
 import net.twasiplugin.smartlife.remote.TuyaRequestBuilder;
 import net.twasiplugin.smartlife.remote.responses.scenes.TriggerSceneResponse;
 import org.apache.http.client.fluent.Response;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class TriggerSceneRequest extends TuyaRequestBuilder<TriggerSceneResponse> {
 
-    public TriggerSceneRequest(SmartlifeCredentialsDTO credentialsDTO, String sceneId, long homeId) {
+    public TriggerSceneRequest(TuyaCredentialsDTO credentialsDTO, String sceneId, long homeId) {
         super("/v1.0/homes/" + homeId + "/scenes/" + sceneId + "/trigger");
         withAuthToken(credentialsDTO.getAccessToken());
         asPost();

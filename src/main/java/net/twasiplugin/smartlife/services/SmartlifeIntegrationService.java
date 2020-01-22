@@ -6,12 +6,12 @@ import net.twasi.core.graphql.model.PanelResultDTO.PanelResultType;
 import net.twasi.core.services.IService;
 import net.twasi.core.services.ServiceRegistry;
 import net.twasi.core.services.providers.DataService;
-import net.twasiplugin.smartlife.api.graphql.models.TuyaDeviceDTO;
-import net.twasiplugin.smartlife.api.graphql.models.TuyaHomeDTO;
-import net.twasiplugin.smartlife.api.graphql.models.TuyaSceneDTO;
-import net.twasiplugin.smartlife.database.SmartlifeCredentialsDTO;
-import net.twasiplugin.smartlife.database.SmartlifeCredentialsRepo;
+import net.twasiplugin.smartlife.database.credentials.TuyaCredentialsDTO;
+import net.twasiplugin.smartlife.database.credentials.TuyaCredentialsRepo;
 import net.twasiplugin.smartlife.exceptions.NoSmartlifeAccountAuthenticatedException;
+import net.twasiplugin.smartlife.remote.models.TuyaDeviceDTO;
+import net.twasiplugin.smartlife.remote.models.TuyaHomeDTO;
+import net.twasiplugin.smartlife.remote.models.TuyaSceneDTO;
 import net.twasiplugin.smartlife.remote.requests.devices.GetDevicesRequest;
 import net.twasiplugin.smartlife.remote.requests.homes.GetHomesRequest;
 import net.twasiplugin.smartlife.remote.requests.scenes.GetScenesByHomeRequest;
@@ -21,27 +21,18 @@ import net.twasiplugin.smartlife.remote.responses.token.TokenResponse;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SmartlifeIntegrationService implements IService {
 
-    private static SmartlifeCredentialsRepo repo = DataService.get().get(SmartlifeCredentialsRepo.class);
-
-    private Map<String, SmartlifeCredentialsDTO> cachedCredentials = new HashMap<>();
+    private static TuyaCredentialsRepo repo = DataService.get().get(TuyaCredentialsRepo.class);
 
     public static SmartlifeIntegrationService get() {
         return ServiceRegistry.get(SmartlifeIntegrationService.class);
     }
 
-    private SmartlifeCredentialsDTO getByUser(User user) throws NoSmartlifeAccountAuthenticatedException {
-        SmartlifeCredentialsDTO dto;
-
-        if (cachedCredentials.containsKey(user.getId().toString()))
-            dto = cachedCredentials.get(user.getId().toString());
-        else if ((dto = repo.getByUser(user)) != null)
-            cachedCredentials.put(user.getId().toString(), dto);
+    private TuyaCredentialsDTO getByUser(User user) throws NoSmartlifeAccountAuthenticatedException {
+        TuyaCredentialsDTO dto = repo.getByUser(user);
 
         if (dto == null) throw new NoSmartlifeAccountAuthenticatedException();
 
@@ -51,7 +42,7 @@ public class SmartlifeIntegrationService implements IService {
         return dto;
     }
 
-    private void refresh(User user, SmartlifeCredentialsDTO dto) throws NoSmartlifeAccountAuthenticatedException {
+    private void refresh(User user, TuyaCredentialsDTO dto) throws NoSmartlifeAccountAuthenticatedException {
         try {
             TokenResponse tokenResponse = new RefreshTokenRequest(dto.getRefreshToken()).executeAndGet();
             dto.setAccessToken(tokenResponse.getAccessToken());
@@ -59,7 +50,6 @@ public class SmartlifeIntegrationService implements IService {
             dto.setExpireTime(tokenResponse.getExpireTime());
             repo.commit(dto);
         } catch (Exception e) {
-            cachedCredentials.remove(user.getId().toString());
             repo.deleteByUser(user.getId());
             throw new NoSmartlifeAccountAuthenticatedException();
         }

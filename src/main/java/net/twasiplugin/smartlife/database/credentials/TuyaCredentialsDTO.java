@@ -1,13 +1,11 @@
-package net.twasiplugin.smartlife.database;
+package net.twasiplugin.smartlife.database.credentials;
 
 import net.twasi.core.database.models.BaseEntity;
 import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.Entity;
 
 import java.util.Date;
 
-@Entity(value = "net.twasi.smartlife.credentials", noClassnameStored = true)
-public class SmartlifeCredentialsDTO extends BaseEntity {
+public class TuyaCredentialsDTO extends BaseEntity {
 
     private ObjectId user;
 
@@ -16,7 +14,7 @@ public class SmartlifeCredentialsDTO extends BaseEntity {
     private String refreshToken;
     private Date expirationDate;
 
-    public SmartlifeCredentialsDTO(ObjectId user, String uid, String accessToken, String refreshToken, Date expirationDate) {
+    public TuyaCredentialsDTO(ObjectId user, String uid, String accessToken, String refreshToken, Date expirationDate) {
         this.user = user;
         this.uid = uid;
         this.accessToken = accessToken;
@@ -24,7 +22,7 @@ public class SmartlifeCredentialsDTO extends BaseEntity {
         this.expirationDate = expirationDate;
     }
 
-    public SmartlifeCredentialsDTO() {
+    public TuyaCredentialsDTO() {
     }
 
     public ObjectId getUser() {

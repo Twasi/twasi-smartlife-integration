@@ -1,6 +1,6 @@
 package net.twasiplugin.smartlife.remote.responses.scenes;
 
-import net.twasiplugin.smartlife.api.graphql.models.TuyaSceneDTO;
+import net.twasiplugin.smartlife.remote.models.TuyaSceneDTO;
 
 import java.util.ArrayList;
 

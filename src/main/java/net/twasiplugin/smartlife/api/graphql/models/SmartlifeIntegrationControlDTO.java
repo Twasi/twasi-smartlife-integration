@@ -2,9 +2,13 @@ package net.twasiplugin.smartlife.api.graphql.models;
 
 import net.twasi.core.database.models.User;
 import net.twasi.core.graphql.TwasiGraphQLHandledException;
+import net.twasi.core.graphql.model.PanelResultDTO;
 import net.twasiplugin.smartlife.SmartlifeIntegration;
+import net.twasiplugin.smartlife.api.graphql.models.sequences.SceneSequencesDTO;
 import net.twasiplugin.smartlife.exceptions.NoSmartlifeAccountAuthenticatedException;
-import net.twasiplugin.smartlife.remote.responses.scenes.TriggerSceneResponse;
+import net.twasiplugin.smartlife.remote.models.TuyaDeviceDTO;
+import net.twasiplugin.smartlife.remote.models.TuyaHomeDTO;
+import net.twasiplugin.smartlife.remote.models.TuyaSceneDTO;
 import net.twasiplugin.smartlife.services.SmartlifeIntegrationService;
 
 import java.util.List;
@@ -16,6 +20,10 @@ public class SmartlifeIntegrationControlDTO {
 
     public SmartlifeIntegrationControlDTO(User user) {
         this.user = user;
+    }
+
+    public SceneSequencesDTO getSceneSequences() {
+        return new SceneSequencesDTO(user);
     }
 
     public List<TuyaDeviceDTO> getDevices() {
@@ -52,7 +60,7 @@ public class SmartlifeIntegrationControlDTO {
         }
     }
 
-    public TriggerSceneResponse triggerScene(long homeId, String sceneId) {
+    public PanelResultDTO triggerScene(long homeId, String sceneId) {
         try {
             return service.triggerSceneByUserAndHome(user, homeId, sceneId);
         } catch (NoSmartlifeAccountAuthenticatedException e) {

@@ -8,5 +8,6 @@ public class SmartlifeIntegrationConfig {
     public String apiUri = "https://openapi.tuyaeu.com";
     public String redirectUri = "https://api-beta.twasi.net/oauth/smartlife/callback";
     public String appSchema = "smartlife";
+    public int maxSequenceSteps = 4;
 
 }

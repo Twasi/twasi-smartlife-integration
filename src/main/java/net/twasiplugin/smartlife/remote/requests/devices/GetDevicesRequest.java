@@ -1,7 +1,7 @@
 package net.twasiplugin.smartlife.remote.requests.devices;
 
-import net.twasiplugin.smartlife.api.graphql.models.TuyaDeviceDTO;
-import net.twasiplugin.smartlife.database.SmartlifeCredentialsDTO;
+import net.twasiplugin.smartlife.remote.models.TuyaDeviceDTO;
+import net.twasiplugin.smartlife.database.credentials.TuyaCredentialsDTO;
 import net.twasiplugin.smartlife.remote.TuyaRequestBuilder;
 import net.twasiplugin.smartlife.remote.responses.devices.GetDevicesResponse;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class GetDevicesRequest extends TuyaRequestBuilder<GetDevicesResponse> {
 
-    public GetDevicesRequest(SmartlifeCredentialsDTO credentialsDTO) {
+    public GetDevicesRequest(TuyaCredentialsDTO credentialsDTO) {
         super("/v1.0/users/" + credentialsDTO.getUid() + "/devices");
         withAuthToken(credentialsDTO.getAccessToken());
     }

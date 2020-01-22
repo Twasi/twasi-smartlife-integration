@@ -5,8 +5,8 @@ import com.google.gson.JsonParser;
 import net.twasi.core.api.oauth.IOauthIntegrationHandler;
 import net.twasi.core.database.models.User;
 import net.twasi.core.services.providers.DataService;
-import net.twasiplugin.smartlife.database.SmartlifeCredentialsDTO;
-import net.twasiplugin.smartlife.database.SmartlifeCredentialsRepo;
+import net.twasiplugin.smartlife.database.credentials.TuyaCredentialsDTO;
+import net.twasiplugin.smartlife.database.credentials.TuyaCredentialsRepo;
 import net.twasiplugin.smartlife.remote.requests.token.GetTokenRequest;
 import org.apache.http.client.fluent.Response;
 
@@ -18,7 +18,7 @@ import static net.twasiplugin.smartlife.SmartlifeIntegration.CONFIG;
 
 public class OAuthController implements IOauthIntegrationHandler {
 
-    private SmartlifeCredentialsRepo repo = DataService.get().get(SmartlifeCredentialsRepo.class);
+    private TuyaCredentialsRepo repo = DataService.get().get(TuyaCredentialsRepo.class);
 
     public String getOauthServiceName() {
         return "smartlife";
@@ -46,7 +46,7 @@ public class OAuthController implements IOauthIntegrationHandler {
             int expireTime = ob.get("expire_time").getAsInt();
 
             Date then = new Date(Calendar.getInstance().getTimeInMillis() + (expireTime - 2) * 60 * 1000);
-            SmartlifeCredentialsDTO dto = new SmartlifeCredentialsDTO(user.getId(), uid, accessToken, refreshToken, then);
+            TuyaCredentialsDTO dto = new TuyaCredentialsDTO(user.getId(), uid, accessToken, refreshToken, then);
             repo.add(dto);
 
             success = true;
