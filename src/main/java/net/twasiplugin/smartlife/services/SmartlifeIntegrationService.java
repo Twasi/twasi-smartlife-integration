@@ -1,16 +1,23 @@
 package net.twasiplugin.smartlife.services;
 
 import net.twasi.core.database.models.User;
+import net.twasi.core.graphql.model.PanelResultDTO;
+import net.twasi.core.graphql.model.PanelResultDTO.PanelResultType;
 import net.twasi.core.services.IService;
 import net.twasi.core.services.ServiceRegistry;
 import net.twasi.core.services.providers.DataService;
-import net.twasiplugin.smartlife.api.graphql.models.DeviceDTO;
+import net.twasiplugin.smartlife.api.graphql.models.TuyaDeviceDTO;
+import net.twasiplugin.smartlife.api.graphql.models.TuyaHomeDTO;
+import net.twasiplugin.smartlife.api.graphql.models.TuyaSceneDTO;
 import net.twasiplugin.smartlife.database.SmartlifeCredentialsDTO;
 import net.twasiplugin.smartlife.database.SmartlifeCredentialsRepo;
 import net.twasiplugin.smartlife.exceptions.NoSmartlifeAccountAuthenticatedException;
-import net.twasiplugin.smartlife.remote.requests.GetDevicesRequest;
-import net.twasiplugin.smartlife.remote.requests.RefreshTokenRequest;
-import net.twasiplugin.smartlife.remote.responses.TokenResponse;
+import net.twasiplugin.smartlife.remote.requests.devices.GetDevicesRequest;
+import net.twasiplugin.smartlife.remote.requests.homes.GetHomesRequest;
+import net.twasiplugin.smartlife.remote.requests.scenes.GetScenesByHomeRequest;
+import net.twasiplugin.smartlife.remote.requests.scenes.TriggerSceneRequest;
+import net.twasiplugin.smartlife.remote.requests.token.RefreshTokenRequest;
+import net.twasiplugin.smartlife.remote.responses.token.TokenResponse;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -58,7 +65,19 @@ public class SmartlifeIntegrationService implements IService {
         }
     }
 
-    public List<DeviceDTO> getDevicesByUser(User user) throws NoSmartlifeAccountAuthenticatedException, IOException {
+    public List<TuyaDeviceDTO> getDevicesByUser(User user) throws NoSmartlifeAccountAuthenticatedException, IOException {
         return new GetDevicesRequest(getByUser(user)).executeAndGet();
+    }
+
+    public List<TuyaHomeDTO> getHomesByUser(User user) throws NoSmartlifeAccountAuthenticatedException, IOException {
+        return new GetHomesRequest(getByUser(user)).executeAndGet();
+    }
+
+    public List<TuyaSceneDTO> getScenesByUserAndHomeId(User user, long homeId) throws NoSmartlifeAccountAuthenticatedException, IOException {
+        return new GetScenesByHomeRequest(getByUser(user), homeId).executeAndGet();
+    }
+
+    public PanelResultDTO triggerSceneByUserAndHome(User user, long homeId, String sceneId) throws NoSmartlifeAccountAuthenticatedException, IOException {
+        return new PanelResultDTO(new TriggerSceneRequest(getByUser(user), sceneId, homeId).executeAndGet().getSuccess() ? PanelResultType.OK : PanelResultType.ERROR);
     }
 }

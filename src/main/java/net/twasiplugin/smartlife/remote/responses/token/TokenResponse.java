@@ -1,4 +1,4 @@
-package net.twasiplugin.smartlife.remote.responses;
+package net.twasiplugin.smartlife.remote.responses.token;
 
 public class TokenResponse {
 

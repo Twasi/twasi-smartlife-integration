@@ -1,8 +1,8 @@
-package net.twasiplugin.smartlife.remote.requests;
+package net.twasiplugin.smartlife.remote.requests.token;
 
 import com.google.gson.Gson;
 import net.twasiplugin.smartlife.remote.TuyaRequestBuilder;
-import net.twasiplugin.smartlife.remote.responses.TokenResponse;
+import net.twasiplugin.smartlife.remote.responses.token.TokenResponse;
 
 import java.io.IOException;
 

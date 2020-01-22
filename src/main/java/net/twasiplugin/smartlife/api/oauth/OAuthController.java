@@ -1,6 +1,5 @@
 package net.twasiplugin.smartlife.api.oauth;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.twasi.core.api.oauth.IOauthIntegrationHandler;
@@ -8,7 +7,7 @@ import net.twasi.core.database.models.User;
 import net.twasi.core.services.providers.DataService;
 import net.twasiplugin.smartlife.database.SmartlifeCredentialsDTO;
 import net.twasiplugin.smartlife.database.SmartlifeCredentialsRepo;
-import net.twasiplugin.smartlife.remote.requests.GetTokenRequest;
+import net.twasiplugin.smartlife.remote.requests.token.GetTokenRequest;
 import org.apache.http.client.fluent.Response;
 
 import java.util.Calendar;

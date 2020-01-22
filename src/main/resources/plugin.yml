@@ -10,26 +10,46 @@ api: |
   }
 
   type SmartlifeIntegrationControl {
-    devices: [Device]
+    devices: [TuyaDevice],
+    scenes(homeId: Long): [TuyaScene],
+    homes: [TuyaHome],
+    triggerScene(homeId: Long, sceneId: String): PanelResult
   }
 
-  type Status {
+  type TuyaDeviceStatus {
     code: String,
     value: String
   }
 
-  type Device {
+  type TuyaDevice {
     id: String,
     uid: String,
     category: String,
-    product_id: String,
+    productId: String,
     sub: Boolean,
     online: Boolean,
     name: String,
     ip: String,
-    time_zone: String,
-    create_time: String,
-    update_time: String,
-    active_time: String,
-    status: [Status]
+    timeZone: String,
+    createTime: String,
+    updateTime: String,
+    activeTime: String,
+    status: [TuyaDeviceStatus]
+  }
+  
+  type TuyaHome {
+    homeId: Long,
+    name: String
+  }
+
+  type TuyaScene {
+    sceneId: String,
+    name: String,
+    background: String
+  }
+
+  type TuyaSceneAction {
+    entityId: String,
+    executorProperty: String,
+    actionExecutor: String
   }

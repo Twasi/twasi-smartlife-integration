@@ -1,7 +1,6 @@
 package net.twasiplugin.smartlife.remote;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.client.fluent.Request;
@@ -63,12 +62,22 @@ public abstract class TuyaRequestBuilder<T> {
      *
      * @param body        The content of the body
      * @param contentType The content type of the body (application/json e.g.)
-     * @return the builder instance
+     * @return The builder instance
      */
     public TuyaRequestBuilder<T> withBody(String body, String contentType) {
         this.body = body;
         this.contentType = contentType;
         return this;
+    }
+
+    /**
+     * Add a JSON body to the request
+     *
+     * @param element The JSON content
+     * @return The builder instance
+     */
+    public TuyaRequestBuilder<T> withJsonBody(JsonElement element) {
+        return withBody(element.toString(), "application/json");
     }
 
     /**
