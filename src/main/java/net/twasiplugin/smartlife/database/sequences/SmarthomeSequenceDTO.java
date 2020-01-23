@@ -1,6 +1,8 @@
 package net.twasiplugin.smartlife.database.sequences;
 
 import net.twasi.core.database.models.BaseEntity;
+import net.twasi.core.database.models.User;
+import net.twasiplugin.smartlife.api.graphql.models.sequences.SceneSequenceInputDTO;
 import net.twasiplugin.smartlife.api.graphql.models.sequences.SceneSequenceStepDTO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
@@ -75,5 +77,20 @@ public class SmarthomeSequenceDTO extends BaseEntity {
 
     public void setSteps(List<SceneSequenceStepDTO> steps) {
         this.steps = steps;
+    }
+
+    public void applyUpdateFromInput(SceneSequenceInputDTO dto) {
+        this.name = dto.getName();
+        this.variable = dto.getVariable();
+        this.steps = dto.getSteps();
+    }
+
+    public static SmarthomeSequenceDTO fromInput(User user, SceneSequenceInputDTO dto) {
+        return new SmarthomeSequenceDTO(
+                user.getId(),
+                dto.getName(),
+                dto.getVariable(),
+                dto.getSteps()
+        );
     }
 }
