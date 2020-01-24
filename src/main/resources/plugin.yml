@@ -1,6 +1,6 @@
 name: SmartlifeIntegration
 author: Twasi-Team
-main: net.twasiplugin.smartlife.SmartlifeIntegration
+main: net.twasidependency.smartlife.SmartlifeIntegration
 dependency: true
 version: "1.0"
 api: |
