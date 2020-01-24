@@ -1,5 +1,6 @@
 package net.twasiplugin.smartlife.api.graphql.models.sequences;
 
+import com.google.gson.Gson;
 import net.twasi.core.database.models.User;
 import net.twasi.core.graphql.TwasiGraphQLHandledException;
 import net.twasi.core.graphql.model.GraphQLPagination;
@@ -47,9 +48,15 @@ public class SceneSequencesDTO {
     }
 
     public SceneSequenceDTO create(SceneSequenceInputDTO newSequence) {
-        if (newSequence.getVariable() != null && repo.getVariablesByUser(user).contains(newSequence.getVariable().toLowerCase()))
-            throw new TwasiGraphQLHandledException("A sequence with this variable name already exists.", "SEQUENCE_VARIABLE_NAME_TAKEN");
-        return SceneSequenceDTO.fromDb(repo.addAndReturn(SmarthomeSequenceDTO.fromInput(user, newSequence)));
+        System.out.println(new Gson().toJson(newSequence));
+        try {
+            if (newSequence.getVariable() != null && repo.getVariablesByUser(user).contains(newSequence.getVariable().toLowerCase()))
+                throw new TwasiGraphQLHandledException("A sequence with this variable name already exists.", "SEQUENCE_VARIABLE_NAME_TAKEN");
+            return SceneSequenceDTO.fromDb(repo.addAndReturn(SmarthomeSequenceDTO.fromInput(user, newSequence)));
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public SceneSequenceDTO update(String id, SceneSequenceInputDTO update) {

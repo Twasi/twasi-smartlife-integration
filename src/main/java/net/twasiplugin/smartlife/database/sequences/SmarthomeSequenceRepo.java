@@ -35,7 +35,7 @@ public class SmarthomeSequenceRepo extends Repository<SmarthomeSequenceDTO> {
 
     public SmarthomeSequenceDTO addAndReturn(SmarthomeSequenceDTO entity) {
         if (entity.getVariable() != null) entity.setVariable(entity.getVariable().toLowerCase());
-        String id = (String) this.store.save(entity).getId();
+        String id = ((ObjectId) this.store.save(entity).getId()).toString();
         return getById(id);
     }
 
@@ -55,6 +55,10 @@ public class SmarthomeSequenceRepo extends Repository<SmarthomeSequenceDTO> {
     }
 
     public boolean deleteByUserAndId(User user, String id) {
-        return store.delete(getByUserAndId(user, new ObjectId(id))).getN() > 0;
+        try {
+            return store.delete(getByUserAndId(user, new ObjectId(id))).getN() > 0;
+        } catch(Exception e) {
+            return false;
+        }
     }
 }

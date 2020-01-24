@@ -14,6 +14,9 @@ public class SceneSequenceInputDTO {
         this.steps = steps;
     }
 
+    public SceneSequenceInputDTO() {
+    }
+
     public String getName() {
         return name;
     }
